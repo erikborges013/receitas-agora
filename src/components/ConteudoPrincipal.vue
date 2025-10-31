@@ -1,17 +1,35 @@
 <script lang="ts">
+import BotaoPrincipal from "./BotaoPrincipal.vue";
+import MostrarReceitas from "./MostrarReceitas.vue";
+import Rodape from "./Rodape.vue";
 import SelecionarIngredientes from "./SelecionarIngredientes.vue";
 import SuaLista from "./SuaLista.vue";
+
+type Pagina = "SelecionarIngredientes" | "MostrarReceitas";
 
 export default {
   data() {
     return {
       ingredientes: [] as string[],
+      conteudo: "SelecionarIngredientes" as Pagina,
     };
   },
-  components: { SelecionarIngredientes, SuaLista },
+  components: {
+    SelecionarIngredientes,
+    SuaLista,
+    BotaoPrincipal,
+    Rodape,
+    MostrarReceitas,
+  },
   methods: {
     adicionarIngredientes(ingrediente: string) {
       this.ingredientes.push(ingrediente);
+    },
+    removerIngredientes(ingrediente: string) {
+      this.ingredientes = this.ingredientes.filter((i) => i !== ingrediente);
+    },
+    navegar(pagina: Pagina) {
+      this.conteudo = pagina;
     },
   },
 };
@@ -23,9 +41,18 @@ export default {
       <SuaLista :ingredientes="ingredientes" />
     </section>
     <SelecionarIngredientes
+      v-if="conteudo === 'SelecionarIngredientes'"
       @adicionar-ingrediente="adicionarIngredientes($event)"
+      @remover-ingrediente="removerIngredientes($event)"
+      @buscar-receitas="navegar('MostrarReceitas')"
+    />
+
+    <MostrarReceitas
+      v-else-if="conteudo === 'MostrarReceitas'"
+      @editar-receitas="navegar('SelecionarIngredientes')"
     />
   </main>
+  <Rodape />
 </template>
 
 <style scoped>
@@ -38,7 +65,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5rem;
 }
 
 @media only screen and (max-width: 1300px) {

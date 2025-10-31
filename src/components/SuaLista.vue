@@ -6,6 +6,7 @@ export default {
     ingredientes: { type: Array as () => String[], required: true },
   },
   components: { Tag },
+  methods: {},
 };
 </script>
 
@@ -13,7 +14,11 @@ export default {
   <section>
     <span class="subtitulo-lg sua-lista-texto"> Sua lista: </span>
     <ul v-if="ingredientes!.length" class="ingredientes-sua-lista">
-      <li v-for="ingrediente in ingredientes as string[]" :key="ingrediente">
+      <li
+        v-for="ingrediente in ingredientes as string[]"
+        :key="ingrediente"
+        class="ingrediente_selecionado"
+      >
         <Tag :texto="ingrediente" :ativa="true" />
       </li>
     </ul>
@@ -33,6 +38,10 @@ export default {
   display: block;
   text-align: center;
   margin-bottom: 1.5rem;
+}
+
+.ingrediente_selecionado {
+  cursor: pointer;
 }
 
 .ingredientes-sua-lista {

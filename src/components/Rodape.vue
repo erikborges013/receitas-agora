@@ -1,0 +1,31 @@
+<script lang="ts">
+export default {};
+</script>
+
+<template>
+  <footer class="rodape paragrafo">
+    <p>Desenvolvido por Dev Borges | 2025 - Todos os direitos reservados.</p>
+  </footer>
+</template>
+
+<style scoped>
+.rodape {
+  background: var(--verde-escuro, #263a29);
+  padding: 1.5rem 7.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 1300px) {
+  .rodape {
+    padding: 1.5rem 3.75rem;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .rodape {
+    padding: 1.5rem;
+  }
+}
+</style>
