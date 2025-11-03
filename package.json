@@ -10,6 +10,8 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
+    "groq-sdk": "^0.34.0",
+    "unsplash-js": "^7.0.20",
     "vue": "^3.3.4"
   },
   "devDependencies": {

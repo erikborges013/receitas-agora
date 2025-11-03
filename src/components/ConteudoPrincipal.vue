@@ -40,17 +40,20 @@ export default {
     <section>
       <SuaLista :ingredientes="ingredientes" />
     </section>
-    <SelecionarIngredientes
-      v-if="conteudo === 'SelecionarIngredientes'"
-      @adicionar-ingrediente="adicionarIngredientes($event)"
-      @remover-ingrediente="removerIngredientes($event)"
-      @buscar-receitas="navegar('MostrarReceitas')"
-    />
+    <KeepAlive include="SelecionarIngredientes">
+      <SelecionarIngredientes
+        v-if="conteudo === 'SelecionarIngredientes'"
+        @adicionar-ingrediente="adicionarIngredientes($event)"
+        @remover-ingrediente="removerIngredientes($event)"
+        @buscar-receitas="navegar('MostrarReceitas')"
+      />
 
-    <MostrarReceitas
-      v-else-if="conteudo === 'MostrarReceitas'"
-      @editar-receitas="navegar('SelecionarIngredientes')"
-    />
+      <MostrarReceitas
+        v-else-if="conteudo === 'MostrarReceitas'"
+        :ingredientes="ingredientes"
+        @editar-receitas="navegar('SelecionarIngredientes')"
+      />
+    </KeepAlive>
   </main>
   <Rodape />
 </template>

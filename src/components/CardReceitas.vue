@@ -1,10 +1,19 @@
 <script lang="ts">
-import type IReceitas from "@/interfaces/IReceitas";
+import type receitasDaIA from "@/interfaces/ReceitasDaIa";
 import type { PropType } from "vue";
 
 export default {
   props: {
-    receita: { type: Object as PropType<IReceitas>, required: true },
+    receita: { type: Object as PropType<receitasDaIA>, required: true },
+  },
+  computed: {
+    caminhoDaImagem() {
+      const imagem = this.receita.imagem;
+      if (imagem.startsWith("http")) {
+        return imagem; // URL do Unsplash
+      }
+      return `/imagens/receitas/${imagem}`; // Imagem de fallback local
+    },
   },
 };
 </script>
@@ -14,7 +23,7 @@ export default {
     <div class="container-imagem-receita">
       <img
         class="image-receita"
-        :src="`/imagens/receitas/${receita.imagem}`"
+        :src="caminhoDaImagem"
         alt="Imagem de alho assado"
       />
     </div>

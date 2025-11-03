@@ -1,18 +1,28 @@
 <script lang="ts">
-import type IReceitas from "@/interfaces/IReceitas";
+import type receitasDaIA from "@/interfaces/ReceitasDaIa";
 import BotaoPrincipal from "./BotaoPrincipal.vue";
 import CardReceitas from "./CardReceitas.vue";
-import { obterReceitas } from "@/assets/http/Index";
+import api from "@/assets/http/Index";
 import ListaDeReceitasVazia from "./ListaDeReceitasVazia.vue";
+import type { PropType } from "vue";
+// Não precisamos mais desta função de filtro!
+// import { itensDeLista1EstaoEmLista2 } from "@/operacoes/listas";
+
 export default {
   data() {
     return {
-      receitas: [] as IReceitas[],
+      receitasEncontradas: [] as receitasDaIA[],
     };
   },
 
+  props: {
+    ingredientes: { type: Array as PropType<string[]>, required: true },
+  },
+
   async created() {
-    this.receitas = await obterReceitas();
+    const receitas = await api.obterReceitas(this.ingredientes);
+
+    this.receitasEncontradas = receitas;
   },
 
   components: { CardReceitas, BotaoPrincipal, ListaDeReceitasVazia },
@@ -23,15 +33,17 @@ export default {
 <template>
   <section class="sessao-apresentacao">
     <h1 class="cabecalho titulo-receitas">Receitas</h1>
-    <p class="paragrafo-lg quantidade-resultados">Resultados encontrados: 8</p>
+    <p class="paragrafo-lg quantidade-resultados">
+      Resultados encontrados: {{ receitasEncontradas.length }}
+    </p>
   </section>
-  <section v-if="receitas.length" class="sessao-cards-receitas">
+  <section v-if="receitasEncontradas.length" class="sessao-cards-receitas">
     <p class="paragrafo-lg paragrafo-mostrar-receita">
       Veja as opções de receitas que encontramos com os ingredientes que você
       tem por aí!
     </p>
     <ul class="receitas">
-      <li v-for="receita in receitas" :key="receita.nome">
+      <li v-for="receita in receitasEncontradas" :key="receita.nome">
         <CardReceitas :receita="receita" />
       </li>
     </ul>

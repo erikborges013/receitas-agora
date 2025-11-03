@@ -1,17 +1,18 @@
 <script lang="ts">
-import { obterCategorias } from "@/assets/http/Index";
+import api from "@/assets/http/Index";
 import type ICategoria from "@/interfaces/ICategoria";
 import CardCategoria from "./CardCategoria.vue";
 import BotaoPrincipal from "./BotaoPrincipal.vue";
 
 export default {
+  name: "SelecionarIngredientes",
   data() {
     return {
       categorias: [] as ICategoria[],
     };
   },
   async created() {
-    this.categorias = await obterCategorias();
+    this.categorias = await api.obterCategorias();
   },
   components: {
     CardCategoria,
